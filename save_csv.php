@@ -3,8 +3,6 @@
     require 'autoload.php'; // Carrega o arquivo de autoload
     use Intervention\Image\ImageManagerStatic as Image;
 
-    
-
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Função para remover caracteres especiais e manter apenas letras
@@ -32,10 +30,29 @@
         $name = ucwords($name);
         return $name;
     }
-    
+
+    // Função para gerar IDs únicos no intervalo de 1 a 9999
+    function generateUniqueNumber() {
+        // Gerar um ID exclusivo baseado em um timestamp com microssegundos
+        $uniqueId = uniqid();
         
+        // Converter a parte hexadecimal do ID em um número decimal
+        $decimalId = hexdec(substr($uniqueId, 0, 13));
+        
+        // Mapear o ID para o intervalo desejado (1 a 9999)
+        $mappedId = mapToRange($decimalId, 1, 9999);
+        
+        return $mappedId;
+    }
+
+    // Função para mapear um valor em um determinado intervalo
+    function mapToRange($value, $min, $max) {
+        $range = $max - $min + 1;
+        return (($value % $range) + $range) % $range + $min;
+    }
+    
         //variaveis que salvam os dados do formulario
-        $uuid = "";
+        $uuid = generateUniqueNumber();
         $nome = sanitizeName($_POST["nome"]);
         $cartao = "";
         $tag = "";
@@ -54,12 +71,10 @@
         $num_dig = "0";
         $biometria = "";
         $foto = $_FILES["foto"];
-        $modelo = "BIOT";
-        $origem = "InControl";
+        $modelo = "SS";
+        $origem = "";
         $cartao_quant = "";
         $tag_uhf = "";
-
-
 
         // Pasta onde as fotos serão salvas
         $uploadDirectory = "dados/";
@@ -83,9 +98,9 @@
         $fotoPath = $uploadDirectory . $nomeFoto;
         move_uploaded_file($foto["tmp_name"], $fotoPath);
         
-        // Redimensiona a foto para 600x800 pixels
+        // Redimensiona a foto para 600x900 pixels
         $resizedFotoPath = $uploadDirectory . "foto_" . $nomeFoto;
-        $image = Image::make($fotoPath)->resize(600, 800);
+        $image = Image::make($fotoPath)->resize(480, 640);
         $image->save($resizedFotoPath);
 
         // Exclui a imagem original após redimensionamento e salvamento
