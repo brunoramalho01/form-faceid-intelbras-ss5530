@@ -20,7 +20,6 @@
         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
       </div>
       <button type="submit" class="btn btn-primary">Enviar</button>
-      
     </form>
   </div>
 
