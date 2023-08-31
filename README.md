@@ -26,4 +26,5 @@ Facilidade de Uso: Nosso aplicativo foi projetado com simplicidade em mente. Com
 </h4>
 
 
+# Status
 ![Static Badge](https://img.shields.io/badge/vers%C3%A3o-V1.2-blue)
