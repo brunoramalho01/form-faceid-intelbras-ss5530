@@ -101,6 +101,40 @@
       
     </form>
   </div>
+
+ <script>
+    document.getElementById('formulario').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const nome = document.getElementById('nome').value;
+        const foto = document.getElementById('foto').files[0];
+
+        const formData = new FormData();
+        formData.append('nome', nome);
+        formData.append('foto', foto);
+
+        fetch('criar_usuario.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            // Exibir alerta de sucesso
+            exibirAlerta('Cadastro realizado com sucesso!');
+            // Limpar o formulário após o envio dos dados
+            document.getElementById('formulario').reset();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+    });
+
+    function exibirAlerta(mensagem) {
+        window.alert(mensagem);
+    }
+</script>
+
 </div>
   <!-- Script para passar os valores e paramentros após dar o Submit no Formulario myForm -->
  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
